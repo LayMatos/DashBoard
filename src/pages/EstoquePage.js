@@ -38,35 +38,36 @@ function EstoquePage() {
   return (
     <div className="flex flex-col bg-[#E3EEFF] min-h-[calc(100vh)]">
       {/* Corpo do conteúdo */}
-      <main className="flex flex-1 flex-wrap justify-center mb-6 gap-6 mt-20"> {/* Ajustando o espaçamento entre os gráficos */}
+      <main className="flex flex-1 flex-wrap justify-center mb-6 gap-6 mt-5"> {/* Ajustando o espaçamento entre os gráficos */}
         {/* Contêiner flex para exibir os gráficos lado a lado */}
         <div className="flex w-full sm:w-10/12 lg:w-10/12 xl:w-10/12 gap-6">
           {/* Gráfico de Barras - Ocupa 8 colunas em telas grandes */}
-          <div className="w-full lg:w-9/12 flex justify-center h-[700px]">
-            <Bar
-              data={barData}
-              options={{
-                responsive: true,
-                maintainAspectRatio: false, 
-                layout: {
-                  padding: 5,
-                },
-                scales: {
-                  y: {
-                    display: false,
-                  },
-                  x: {
-                    ticks: {
-                      padding: 5,
-                    },
-                  },
-                },
-              }}
-            />
-          </div>
+          <div className="w-full max-w-[1200px] mx-auto flex justify-center items-center h-[500px]">
+  <Bar
+    data={barData}
+    options={{
+      responsive: true,
+      maintainAspectRatio: false,
+      layout: {
+        padding: 5,
+      },
+      scales: {
+        y: {
+          display: false,
+        },
+        x: {
+          ticks: {
+            padding: 5,
+          },
+        },
+      },
+    }}
+  />
+</div>
+
 
           {/* Gráfico de Biscoito - Ocupa 3 colunas em telas grandes */}
-          <div className="w-full lg:w-3/12 flex justify-center mt-20 p-5">
+          <div className="w-full lg:w-3/12 xl:w-3/12 flex justify-center mt-20 p-5">
             <div className="bg-white shadow-lg rounded-lg p-8 w-full h-[300px]"> {/* Reduzindo a altura do card */}
               <h3 className="text-xl font-semibold mb-4 text-center">Status do Estoque</h3>
               <div className="relative h-[200px]"> {/* Reduzindo a altura do gráfico */}

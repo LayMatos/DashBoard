@@ -145,7 +145,7 @@ function App() {
             {/* Legenda */}
             <div className="bg-white p-4 shadow-lg rounded-md w-3/4 mx-auto mt-4">
               <h4 className="font-bold text-center mb-4">Legenda</h4>
-              <div className="grid grid-cols-4 gap-4">
+              <div className="grid grid-cols-4 gap-2">
                 {[
                   { color: "#B8860B", label: "CR 1" },
                   { color: "#FF6347", label: "CR 2" },
