@@ -132,7 +132,7 @@ function App() {
                         onClick={() => handleGroupClick(municipioNome)}
                         style={{
                           default: { outline: "none" },
-                          hover: { fill: "#F53", outline: "none" },
+                          hover: { fill: "#696969", outline: "none" },
                           pressed: { outline: "none" },
                         }}
                       />
