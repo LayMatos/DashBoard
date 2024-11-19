@@ -38,50 +38,49 @@ function EstoquePage() {
   return (
     <div className="flex flex-col bg-[#E3EEFF] min-h-[calc(100vh)]">
       {/* Corpo do conteúdo */}
-      <main className="flex flex-1 flex-wrap justify-center mb-6 gap-6 mt-5"> {/* Ajustando o espaçamento entre os gráficos */}
+      <main className="flex flex-1 flex-wrap justify-center mb-6 gap-6 mt-10">
         {/* Contêiner flex para exibir os gráficos lado a lado */}
-        <div className="flex w-full sm:w-10/12 lg:w-10/12 xl:w-10/12 gap-6">
-          {/* Gráfico de Barras - Ocupa 8 colunas em telas grandes */}
-          <div className="w-full max-w-[1200px] mx-auto flex justify-center items-center h-[500px]">
-  <Bar
-    data={barData}
-    options={{
-      responsive: true,
-      maintainAspectRatio: false,
-      layout: {
-        padding: 5,
-      },
-      scales: {
-        y: {
-          display: false,
-        },
-        x: {
-          ticks: {
-            padding: 5,
-          },
-        },
-      },
-    }}
-  />
-</div>
+        <div className="flex flex-col sm:flex-row justify-center w-full gap-6 mt-10 mx-3">
+          {/* Gráfico de Barras */}
+          <div className="flex justify-center items-center w-full sm:w-10/12 md:w-9/12 lg:w-10/12 xl:w-10/12 max-w-[1200px] mx-auto h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] mt-6"> {/* Adicionando margem superior */}
+            <Bar
+              data={barData}
+              options={{
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                  padding: 5,
+                },
+                scales: {
+                  y: {
+                    display: false,
+                  },
+                  x: {
+                    ticks: {
+                      padding: 10,  // Aumentando o espaço nas margens do eixo X
+                    },
+                  },
+                },
+              }}
+            />
+          </div>
 
-
-          {/* Gráfico de Biscoito - Ocupa 3 colunas em telas grandes */}
-          <div className="w-full lg:w-3/12 xl:w-3/12 flex justify-center mt-20 p-5">
-            <div className="bg-white shadow-lg rounded-lg p-8 w-full h-[300px]"> {/* Reduzindo a altura do card */}
+          {/* Gráfico de Biscoito */}
+          <div className="flex justify-center items-center w-full lg:w-4/12 xl:w-3/12 sm:w-10/12">
+            <div className="bg-white shadow-lg rounded-lg py-10 w-full h-[250px] sm:h-[300px] md:h-[350px]">
               <h3 className="text-xl font-semibold mb-4 text-center">Status do Estoque</h3>
-              <div className="relative h-[200px]"> {/* Reduzindo a altura do gráfico */}
+              <div className="relative w-full h-full">
                 <Doughnut 
                   data={doughnutData} 
                   options={{
                     responsive: true, 
                     maintainAspectRatio: false,
                     layout: {
-                      padding: 2, // Ajustando o espaçamento interno do gráfico de rosca
+                      padding: 2,
                     },
                     plugins: {
                       legend: {
-                        position: 'bottom', // Posição da legenda
+                        position: 'bottom',
                       },
                     },
                   }} 
@@ -100,7 +99,7 @@ function EstoquePage() {
             className={`flex justify-center items-center p-3 rounded-full transition duration-300 ease-in-out 
             ${activeButton === "estoque" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
           >
-            <FaChartArea size={24} /> {/* Ícone */}
+            <FaChartArea size={24} />
           </button>
         </Link>
       </div>
