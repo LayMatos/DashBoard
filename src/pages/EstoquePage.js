@@ -37,12 +37,15 @@ function EstoquePage() {
 
   return (
     <div className="flex flex-col bg-[#E3EEFF] min-h-[calc(100vh)]">
+      {/* Título da Página */}
+      <h1 className="text-3xl font-bold text-center mt-10">Gestão de Estoque</h1>
+
       {/* Corpo do conteúdo */}
-      <main className="flex flex-1 flex-wrap justify-center mb-6 gap-6 mt-10">
+      <main className="flex flex-1 flex-wrap justify-center mt-5">
         {/* Contêiner flex para exibir os gráficos lado a lado */}
-        <div className="flex flex-col sm:flex-row justify-center w-full gap-6 mt-10 mx-3">
+        <div className="flex flex-col sm:flex-row justify-center w-full gap-2 mt-5 mx-3 items-stretch">
           {/* Gráfico de Barras */}
-          <div className="flex justify-center items-center w-full sm:w-10/12 md:w-9/12 lg:w-10/12 xl:w-10/12 max-w-[1200px] mx-auto h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] mt-6"> {/* Adicionando margem superior */}
+          <div className="flex justify-center items-center w-full sm:w-10/12 md:w-9/12 lg:w-10/12 xl:w-10/12 max-w-[1200px] mx-auto h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] mt-10 ml-10">
             <Bar
               data={barData}
               options={{
@@ -57,7 +60,7 @@ function EstoquePage() {
                   },
                   x: {
                     ticks: {
-                      padding: 10,  // Aumentando o espaço nas margens do eixo X
+                      padding: 10, // Aumentando o espaço nas margens do eixo X
                     },
                   },
                 },
@@ -66,14 +69,14 @@ function EstoquePage() {
           </div>
 
           {/* Gráfico de Biscoito */}
-          <div className="flex justify-center items-center w-full lg:w-4/12 xl:w-3/12 sm:w-10/12">
-            <div className="bg-white shadow-lg rounded-lg py-10 w-full h-[250px] sm:h-[300px] md:h-[350px]">
+          <div className="flex justify-center items-center w-full lg:w-4/12 xl:w-3/12 sm:w-10/12 h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] mt-10 mr-5">
+          <div className="bg-white shadow-lg rounded-lg py-10 w-full h-full">
               <h3 className="text-xl font-semibold mb-4 text-center">Status do Estoque</h3>
               <div className="relative w-full h-full">
-                <Doughnut 
-                  data={doughnutData} 
+                <Doughnut
+                  data={doughnutData}
                   options={{
-                    responsive: true, 
+                    responsive: true,
                     maintainAspectRatio: false,
                     layout: {
                       padding: 2,
@@ -83,7 +86,7 @@ function EstoquePage() {
                         position: 'bottom',
                       },
                     },
-                  }} 
+                  }}
                 />
               </div>
             </div>

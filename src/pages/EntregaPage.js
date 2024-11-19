@@ -133,18 +133,19 @@ function App() {
     </button>
   </Link>
 </div>
-          <div className="relative w-full h-full mt-4">
-          <h1 className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10 text-2xl font-bold px-2">Distribuição por CR</h1>
-
-          {/* Nome da cidade hovered */}
-          <div className="text-center mt-8">
-  {cidadeHover && (
-    <div className="text-xl bg-white inline-block p-2 shadow-lg rounded mx-4">
-      {cidadeHover}
-    </div>
-  )}
+{/* Nome da cidade hovered */}
+<div
+  className="absolute z-10 text-xl font-bold p-2 rounded text-black pointer-events-none transform -translate-x-1/2  bg-[#E3EEFF]"
+  style={{
+    top: `${tooltipPosition.y - 100}px`, // Ajuste para colocar o tooltip acima do cursor
+    left: `${tooltipPosition.x}px`,
+  }}
+>
+  {cidadeHover && <span>{cidadeHover}</span>}
 </div>
 
+          <div className="relative w-full h-full mt-4">
+          <h1 className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10 text-2xl font-bold px-2">Distribuição por CR</h1>
 
 <ComposableMap
       projection="geoMercator"
@@ -164,6 +165,7 @@ function App() {
                 stroke="#FFF"
                 onMouseEnter={() => setCidadeHover(municipioNome)}
                 onMouseLeave={() => setCidadeHover(null)}
+                onMouseMove={(event) => handleMouseMove(event)}
                 onClick={() => handleGroupClick(municipioNome)}
                 style={{
                   default: { outline: "none" },
@@ -176,22 +178,6 @@ function App() {
         }
       </Geographies>
 
-      {/* Adicionando os Markers (labels) */}
-      {markers.map((marker, index) => (
-        <Marker key={index} coordinates={marker.coordinates}>
-          <text
-            textAnchor="middle"
-            y={-10} // Ajuste a posição do texto (acima ou abaixo do marcador)
-            style={{
-              fontFamily: "Arial",
-              fontSize: 14,
-              fill: "black",
-            }}
-          >
-            {marker.name}
-          </text>
-        </Marker>
-      ))}
     </ComposableMap>
     
             {/* Legenda */}
