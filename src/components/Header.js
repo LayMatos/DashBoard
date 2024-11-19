@@ -2,7 +2,7 @@ import React from 'react';
 
 function Header() {
   return (
-    <header className="h-32 bg-gradient-to-r from-blue-900 via-blue-400 to-blue-900 p-6 flex justify-between items-center">
+    <header className="h-22 bg-gradient-to-r from-blue-900 via-blue-400 to-blue-900 p-6 flex justify-between items-center">
       <div className="flex items-center">
         <img src="/images/Logo_PMMT.png" alt="Logo PMMT" className="h-20 w-auto" />
       </div>

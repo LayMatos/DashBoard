@@ -1,14 +1,14 @@
+// App.js
 import React, { useState } from 'react';
-import '../App.css'; // Certifique-se de que o Tailwind está sendo importado aqui
 import { Link } from 'react-router-dom';
-import { ComposableMap, Geographies, Geography, Marker } from 'react-simple-maps';
-import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
-import geoJson from '../data/geo-MT.json';
-import gruposDeMunicipios from '../data/grupodeMunicipios';
 import { FaBox } from 'react-icons/fa';
-import { FaChartArea } from 'react-icons/fa';
+import { FaMap } from "react-icons/fa";
+import { FaMapMarkedAlt } from "react-icons/fa";
+import MapDesenho from '../components/MapaDesenho'; // Importe corretamente o MapDesenho
+import MapComponent from '../components/MapaReal'; // Importe corretamente o MapComponent
+import { PieChart, Pie, Cell, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+// Dados para gráficos e outras variáveis (mantenha como estão)
 
-// Dados para gráficos
 const dataCautela = [
   { name: 'Cautelado', value: 40 },
   { name: 'Descautelado', value: 30 },
@@ -28,71 +28,36 @@ const dataCidadeEquipamentos = [
   { cidade: 'Cidade E', entregues: 35, cautelados: 25 },
 ];
 
-const getMunicipiosPorCor = (municipioNome) => {
-  if (gruposDeMunicipios.CR_1.includes(municipioNome)) return "#B8860B"; 
-  if (gruposDeMunicipios.CR_2.includes(municipioNome)) return "#FA8072"; 
-  if (gruposDeMunicipios.CR_3.includes(municipioNome)) return "#8B0000";
-  if (gruposDeMunicipios.CR_4.includes(municipioNome)) return "#BDB76B";
-  if (gruposDeMunicipios.CR_5.includes(municipioNome)) return "#6B8E23";  
-  if (gruposDeMunicipios.CR_6.includes(municipioNome)) return "#000000"; 
-  if (gruposDeMunicipios.CR_7.includes(municipioNome)) return "#6495ED";
-  if (gruposDeMunicipios.CR_8.includes(municipioNome)) return "#CD5C5C"; 
-  if (gruposDeMunicipios.CR_9.includes(municipioNome)) return "#7B68EE"; 
-  if (gruposDeMunicipios.CR_10.includes(municipioNome)) return "#20B2AA";
-  if (gruposDeMunicipios.CR_11.includes(municipioNome)) return "#008B8B"; 
-  if (gruposDeMunicipios.CR_12.includes(municipioNome)) return "#0000FF"; 
-  if (gruposDeMunicipios.CR_13.includes(municipioNome)) return "#363636";
-  if (gruposDeMunicipios.CR_14.includes(municipioNome)) return "#8B008B";    
-  if (gruposDeMunicipios.CR_15.includes(municipioNome)) return "#006400"; 
-  return "#D0D0D0"; // Cor padrão para municípios não classificados
-};
-
-
-
-function App() {
-
-  const [cidadeHover, setCidadeHover] = useState(null);
-  const [tooltipPosition, setTooltipPosition] = useState({ x: 0, y: 0 });
-
-  const handleMouseMove = (event) => {
-    setTooltipPosition({
-      x: event.clientX,
-      y: event.clientY,
-    });
-  };
+const App = () => {
   const [municipiosSelecionados, setMunicipiosSelecionados] = useState([]);
   const [cidadeSelecionada, setCidadeSelecionada] = useState(null);
   const [activeButton, setActiveButton] = useState("estoque");
 
-  //const [cidadeHover, setCidadeHover] = useState(null); 
+   // Definindo o estado para controlar o mapa selecionado e a função de troca
+   const [selectedMap, setSelectedMap] = useState("mapDesenho"); // Definindo mapDesenho como valor inicial
 
-  const handleGroupClick = (municipioNome) => {
-    const municipio = dataCidadeEquipamentos.find(item => item.cidade === municipioNome);
-    if (municipio) {
-      setMunicipiosSelecionados(prev => [...prev, municipio]);
-      setCidadeSelecionada(municipio);
-    }
-  };
+   const handleGroupClick = (municipioNome) => {
+     const municipio = dataCidadeEquipamentos.find(item => item.cidade === municipioNome);
+     if (municipio) {
+       setMunicipiosSelecionados(prev => [...prev, municipio]);
+       setCidadeSelecionada(municipio);
+     }
+   };
+ 
+   const handleMapSwitch = (mapType) => {
+     setSelectedMap(mapType); // Função para alternar entre os mapas
+   };
 
   const cidadeDataEquipamentos = cidadeSelecionada ? 
     [{ cidade: cidadeSelecionada.cidade, entregues: cidadeSelecionada.entregues, cautelados: cidadeSelecionada.cautelados }] : [];
 
-    const markers = [
-      { name: "Comando A", coordinates: [-56.09, -15.59] },
-      { name: "Comando B", coordinates: [-57.09, -14.59] },
-      // Adicione mais municípios conforme necessário
-    ];
-  
-
   return (
-    <div className="min-h-screen flex flex-col bg-[#E3EEFF]"> {/* Aqui está a adição do fundo */}
-     
-      {/* Corpo principal */}
+    <div className="min-h-screen flex flex-col bg-[#E3EEFF]">
       <main className="flex-grow p-4 flex flex-wrap">
         {/* Lado esquerdo */}
         <div className="w-full md:w-1/4 space-y-6">
           <div className="bg-white p-4 shadow-md rounded-lg flex flex-col items-center">
-            <h3 className="font-bold text-lg mb-2 text-center">Termos de Cautela</h3>
+            <h3 className="font-bold text-lg mb-4 text-center">Termos de Cautela</h3>
             <PieChart width={250} height={250}>
               <Pie data={dataCautela} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={80} fill="#8884d8">
                 {dataCautela.map((entry, index) => (
@@ -122,104 +87,60 @@ function App() {
 
         {/* Mapa de Mato Grosso */}
         <div className="flex flex-col items-center w-full md:w-1/2">
-        <div className="flex justify-center p-4 absolute top-20 left-1/2 transform -translate-x-1/2 z-10">
-  <Link to="/estoque">
-    <button
-      onClick={() => setActiveButton("estoque")}
-      className={`flex justify-center items-center p-3 rounded-full transition duration-300 ease-in-out 
-      ${activeButton === "estoque" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
-    >
-      <FaBox size={24} /> {/* Ícone para o botão estoque */}
-    </button>
-  </Link>
-</div>
-{/* Nome da cidade hovered */}
-<div
-  className="absolute z-10 text-xl font-bold p-2 rounded text-black pointer-events-none transform -translate-x-1/2  bg-[#E3EEFF]"
-  style={{
-    top: `${tooltipPosition.y - 100}px`, // Ajuste para colocar o tooltip acima do cursor
-    left: `${tooltipPosition.x}px`,
-  }}
->
-  {cidadeHover && <span>{cidadeHover}</span>}
-</div>
-
-          <div className="relative w-full h-full mt-4">
-          <h1 className="absolute top-0 left-1/2 transform -translate-x-1/2 z-10 text-2xl font-bold px-2">Distribuição por CR</h1>
-
-<ComposableMap
-      projection="geoMercator"
-      projectionConfig={{ scale: 2900, center: [-55.0, -12.5] }}
-      style={{ width: "100%", height: "calc(100vh - 200px)" }}
-    >
-      <Geographies geography={geoJson}>
-        {({ geographies }) =>
-          geographies.map((geo) => {
-            const municipioNome = geo.properties.name;
-            const cor = getMunicipiosPorCor(municipioNome);
-            return (
-              <Geography
-                key={geo.rsmKey}
-                geography={geo}
-                fill={cor}
-                stroke="#FFF"
-                onMouseEnter={() => setCidadeHover(municipioNome)}
-                onMouseLeave={() => setCidadeHover(null)}
-                onMouseMove={(event) => handleMouseMove(event)}
-                onClick={() => handleGroupClick(municipioNome)}
-                style={{
-                  default: { outline: "none" },
-                  hover: { fill: "#696969", outline: "none" },
-                  pressed: { outline: "none" },
-                }}
-              />
-            );
-          })
-        }
-      </Geographies>
-
-    </ComposableMap>
-    
-            {/* Legenda */}
-            <div className="bg-white p-4 shadow-lg rounded-md w-3/4 mx-auto mt-4">
-              <h4 className="font-bold text-center mb-4">Legenda</h4>
-              <div className="grid grid-cols-4 gap-2">
-                {[
-                  { color: "#B8860B", label: "CR 1" },
-                  { color: "#FF6347", label: "CR 2" },
-                  { color: "#8B0000", label: "CR 3" },
-                  { color: "#BDB76B", label: "CR 4" },
-                  { color: "#A0522D", label: "CR 5" },
-                  { color: "#000000", label: "CR 6" },
-                  { color: "#6495ED", label: "CR 7" },
-                  { color: "#CD5C5C", label: "CR 8" },
-                  { color: "#7B68EE", label: "CR 9" },
-                  { color: "#20B2AA", label: "CR 10" },
-                  { color: "#008B8B", label: "CR 11" },
-                  { color: "#0000FF", label: "CR 12" },
-                  { color: "#9370DB", label: "CR 13" },
-                  { color: "#8B008B", label: "CR 14" },
-                  { color: "#006400", label: "CR 15" },
-                ].map((item) => (
-                  <div className="flex items-center space-x-2" key={item.label}>
-                    <span
-                      style={{
-                        backgroundColor: item.color,
-                        width: 50,
-                        height: 20,
-                        display: "inline-block",
-                      }}
-                    ></span>
-                    <span>{item.label}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          <div className="flex justify-center p-4 absolute top-20 left-1/2 transform -translate-x-1/2 z-10">
+            <Link to="/estoque">
+              <button
+                onClick={() => setActiveButton("estoque")}
+                className={`flex justify-center items-center p-3 rounded-full transition duration-300 ease-in-out 
+                ${activeButton === "estoque" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
+              >
+                <FaBox size={24} /> {/* Ícone para o botão estoque */}
+              </button>
+            </Link>
           </div>
-        </div>
+          <div className="relative w-full h-full mt-4">
+  {/* Título e Botões alinhados ao lado */}
+  <div className="flex items-center justify-center">
+    <h1 className="text-2xl font-bold px-2 mr-4">Distribuição por CR</h1> {/* Título */}
+    <div className="flex space-x-4">
+      <button
+        onClick={() => handleMapSwitch("mapDesenho")}
+        className={`px-4 py-2 rounded-lg transition duration-300 ease-in-out 
+          ${selectedMap === "mapDesenho" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
+      >
+         <FaMap size={24} /> {/* Ícone para o botão estoque */}
+      </button>
+      <button
+        onClick={() => handleMapSwitch("mapComponent")}
+        className={`px-4 py-2 rounded-lg transition duration-300 ease-in-out 
+          ${selectedMap === "mapComponent" ? "bg-blue-500 text-white" : "bg-gray-300 text-black"}`}
+      >
+         <FaMapMarkedAlt  size={24} /> {/* Ícone para o botão estoque */}
+      </button>
+    </div>
+  </div>
 
-        {/* Lado direito */}
-        <div className="w-full md:w-1/4 space-y-6 mt-6 md:mt-0">
+  {/* Componente do Mapa com base na seleção */}
+  <div className="relative w-full mt-[20px]"> {/* Aumentando a margem superior para garantir que os botões não sobreponham o mapa */}
+    {selectedMap === "mapDesenho" ? (
+      <div className="relative w-full h-full"> {/* Sem altura fixa para MapDesenho */}
+        <MapDesenho onHover={(municipioNome) => console.log(`Hovered: ${municipioNome}`)} onClick={handleGroupClick} />
+      </div>
+    ) : (
+      <div className="h-[640px] mx-4"> {/* Altura fixa para MapComponent */}
+        <MapComponent onHover={(municipioNome) => console.log(`Hovered: ${municipioNome}`)} onClick={handleGroupClick} />
+      </div>
+    )}
+  </div>
+</div>
+
+
+
+
+</div>
+
+      {/* Lado direito */}
+      <div className="w-full md:w-1/4 space-y-6 mt-6 md:mt-0">
           {/* Card 1: Gráfico Biscoito Entrega */}
           <div className="bg-white p-4 shadow-md rounded-lg flex flex-col items-center justify-center">
             <h3 className="font-bold text-lg mb-4 text-center">Termos de Entrega</h3>
@@ -268,6 +189,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

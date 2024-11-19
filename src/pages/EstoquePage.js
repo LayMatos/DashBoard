@@ -39,9 +39,8 @@ function EstoquePage() {
     <div className="flex flex-col bg-[#E3EEFF] min-h-[calc(100vh)]">
       {/* Título da Página */}
       <h1 className="text-3xl font-bold text-center mt-10">Gestão de Estoque</h1>
-
       {/* Corpo do conteúdo */}
-      <main className="flex flex-1 flex-wrap justify-center mt-5">
+      <main className="flex flex-1 flex-wrap justify-center mt-1 mb-10">
         {/* Contêiner flex para exibir os gráficos lado a lado */}
         <div className="flex flex-col sm:flex-row justify-center w-full gap-2 mt-5 mx-3 items-stretch">
           {/* Gráfico de Barras */}
@@ -69,8 +68,8 @@ function EstoquePage() {
           </div>
 
           {/* Gráfico de Biscoito */}
-          <div className="flex justify-center items-center w-full lg:w-4/12 xl:w-3/12 sm:w-10/12 h-[300px] sm:h-[400px] md:h-[450px] lg:h-[500px] mt-10 mr-5">
-          <div className="bg-white shadow-lg rounded-lg py-10 w-full h-full">
+          <div className="flex justify-center items-center w-full lg:w-4/12 xl:w-3/12 sm:w-10/12 h-[300px] sm:h-[400px] md:h-[400px] lg:h-[500px] mt-10 mr-5">
+          <div className="hadow-lg rounded-lg py-10 w-full h-full">
               <h3 className="text-xl font-semibold mb-4 text-center">Status do Estoque</h3>
               <div className="relative w-full h-full">
                 <Doughnut
